@@ -1,6 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+import { getNews } from '../libs/microcms';
+
+// MicroCMSの呼び出し
+const response = await getNews({ fields: ['id', 'title'] });
 ---
 
 <Layout title="Astro Practicer">
@@ -12,39 +16,13 @@ import Card from '../components/Card.astro';
 			<section class="articles">
 				<h2>Articles</h2>
 				<ul>
-					<li>
-						<div class="contents">
-							<h3>Title</h3>
-							<p>
-								Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-								Maxime, vel dolorum? Placeat a aut praesentium molestias, earum
-								illum cumque dolore delectus iusto, fugiat excepturi, enim
-								accusantium eum. Sequi, cumque magni!
-							</p>
-						</div>
-					</li>
-					<li>
-						<div class="contents">
-							<h3>Title</h3>
-							<p>
-								Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-								Maxime, vel dolorum? Placeat a aut praesentium molestias, earum
-								illum cumque dolore delectus iusto, fugiat excepturi, enim
-								accusantium eum. Sequi, cumque magni!
-							</p>
-						</div>
-					</li>
-					<li>
-						<div class="contents">
-							<h3>Title</h3>
-							<p>
-								Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-								Maxime, vel dolorum? Placeat a aut praesentium molestias, earum
-								illum cumque dolore delectus iusto, fugiat excepturi, enim
-								accusantium eum. Sequi, cumque magni!
-							</p>
-						</div>
-					</li>
+					{
+						response.contents.map((news: any) => (
+							<li>
+								<a href="#">{news.title}</a>
+							</li>
+						))
+					}
 				</ul>
 			</section>
 		</div>
@@ -69,31 +47,37 @@ import Card from '../components/Card.astro';
 		padding: 50px 0;
 	}
 
+	.container .articles {
+		background: #eee;
+		padding: 50px 25px;
+		border-radius: 10px;
+	}
+
 	.container .articles h2 {
 		font-size: 32px;
+		padding: 0 15px;
 	}
 
 	.container .articles ul {
 		margin-top: 25px;
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 15px;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.container .articles ul li {
-		background: #eee;
-		border: 1px solid #222;
-		border-radius: 4px;
-		box-shadow: -7px 6px 47px -23px rgba(0, 0, 0, 0.49);
+		border-bottom: 1px solid #ddd;
 		list-style: none;
-		padding: 15px 25px;
 	}
 
-	.container .articles ul li h3 {
-		font-size: 24px;
+	.container .articles ul li a {
+		padding: 25px 15px;
+		display: flex;
+		text-decoration: none;
+		color: #000;
+		font-weight: bold;
 	}
 
-	.container .articles ul li p {
-		font-size: 14px;
+	.container .articles ul li a:hover {
+		opacity: 0.7;
 	}
 </style>
