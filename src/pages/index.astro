@@ -19,7 +19,7 @@ const response = await getNews({ fields: ['id', 'title'] });
 					{
 						response.contents.map((news: any) => (
 							<li>
-								<a href="#">{news.title}</a>
+								<a href={news.id}>{news.title}</a>
 							</li>
 						))
 					}
